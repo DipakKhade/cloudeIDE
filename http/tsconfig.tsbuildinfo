@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/s3.ts","./src/types.ts","./src/zod.ts","./src/api/v1/index.ts","./src/api/v1/profile/index.ts","./src/api/v1/project/index.ts","./src/api/v1/user/index.ts","./src/db/prisma.ts","./src/lib/config.ts","./src/middleware/auth.ts"],"version":"5.6.3"}
