@@ -47,3 +47,8 @@ projectRouter.get("/projectlist", authMiddleware, async (req, res) => {
     });
   }
 });
+
+
+projectRouter.get('/getfilecontent',async(req,res)=>{
+    
+})
