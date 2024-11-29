@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, useNavigate } from "react-router-dom";
 import SignIn from "./pages/Signin.tsx";
 import App from "./App.tsx";
 import Code from "./pages/code.tsx";
@@ -19,7 +19,7 @@ const routes = createBrowserRouter([
     path: "/",
     element: <App />,
   },
-  
+
   {
     path: 'newproject',
     element: <GetProjectDetails />
@@ -30,6 +30,7 @@ const routes = createBrowserRouter([
     element: <Code />
   }
 ]);
+
 
 createRoot(document.getElementById("root")!).render(
   <>

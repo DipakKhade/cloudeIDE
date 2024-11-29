@@ -31,3 +31,9 @@ export const getTemplateCode = z.object({
   name:z.string(),
   template: z.string(),
 });
+
+export const firebaseAuthUserSchema = z.object({
+  name:z.string(),
+  email:z.string().email()
+});
+
