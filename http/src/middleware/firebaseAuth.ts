@@ -1,29 +1,28 @@
-import { NextFunction, Request, Response } from "express";
-import * as admin from 'firebase-admin';
+import { NextFunction, Response, Request } from "express";
+import { initializeApp } from "firebase-admin/app";
+import { getAppCheck } from "firebase-admin/app-check";
 
-admin.initializeApp({
-    credential: admin.credential.applicationDefault(), 
-});
+const firebaseApp = initializeApp();
 
-
-export  const firebaseAuthMiddleware = async(req:Request,res:Response,next:NextFunction) =>{
-    const token = req.headers.token as string;
-
-    if(!token){
+export const firebaseAuthMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+    const appCheckToken = req.headers?.token as string;
+    console.log(appCheckToken)
+    if (!appCheckToken) {
         res.json({
-            message:"token not found"
+            message: "token not found"
         });
-        return;
-    }
-    const auth = admin.auth().verifyIdToken(token).then((decodedToken:any)=>{
-        console.log(decodedToken)
-        next();
-    }).catch((err:any)=>{
-        res.json({
-            message:"invalid credentionals",
-            data:err.message
-        })
-        return;
-    })
+        return
 
+    }
+    try {
+
+        const appCheckClaims = await getAppCheck().verifyToken(appCheckToken);
+        console.log(appCheckClaims);
+
+        return next();
+    } catch (err) {
+        res.status(401);
+        return next("Unauthorized");
+    }
 }
+

@@ -44,7 +44,7 @@ export default function Appbar() {
                 template
             },
             headers: {
-                token: localStorage.getItem('token')
+                token: getState().firebase.auth.stsTokenManager.accessToken
             }
         })
 

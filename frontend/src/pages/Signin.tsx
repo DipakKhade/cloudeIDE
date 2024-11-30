@@ -7,6 +7,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useRecoilState } from "recoil";
 import axios from 'axios';
 import { BACKEND_URL } from "@/lib/config";
+import { useNavigate } from "react-router-dom";
 
 const firebaseApp = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
@@ -31,8 +32,11 @@ const signInWithGooglePopup = () => signInWithPopup(auth, provider).then(async (
 
 export default function SignIn() {
   const [user, SetUser] = useRecoilState(userAtom);
-
+  const navigate = useNavigate();
   const logGoogleUser = async () => {
+    const token = await auth.currentUser?.getIdToken();
+    console.log('token is this', token);
+    localStorage.setItem('token', token)
     const response = await signInWithGooglePopup();
     console.log(response);
     if (response?.user && response.user.email) {
@@ -43,7 +47,7 @@ export default function SignIn() {
         }
       })
     }
-
+    navigate('/');
     console.log('user.user', user?.user)
   }
 
@@ -93,7 +97,6 @@ export default function SignIn() {
   return <>
     hii {user.user?.email}
   </>
-
 }
 
 

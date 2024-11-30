@@ -4,7 +4,6 @@ import { db } from "../../../db/prisma";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import bcypt from "bcrypt";
 import { saltRounds } from "../../../lib/config";
-import { firebaseAuthMiddleware } from "../../../middleware/firebaseAuth";
 
 export const userRouter = Router();
 

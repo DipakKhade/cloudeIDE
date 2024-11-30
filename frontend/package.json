@@ -26,6 +26,7 @@
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^16.4.5",
     "firebase": "^11.0.2",
     "lucide-react": "^0.447.0",
     "monaco-editor": "^0.51.0",
