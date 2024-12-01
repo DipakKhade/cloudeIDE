@@ -6,31 +6,32 @@ export const authMiddleware = async (
   res: Response,
   next: NextFunction
 ): Promise<any> => {
-  const Bearertoken = req.headers.token;
-  console.log(req.headers.token);
-  const token = (Bearertoken as string).split(" ")[1];
+  // const Bearertoken = req.headers.token;
+  // console.log(req.headers.token);
+  // const token = (Bearertoken as string).split(" ")[1];
 
-  if (!token) {
-    return res.json({
-      message: "token not found",
-    });
-  }
+  // if (!token) {
+  //   return res.json({
+  //     message: "token not found",
+  //   });
+  // }
 
   try {
-    const verifyToken = jwt.verify(token, process.env.JWT_SEC!) as {
-      userId: number;
-      username: string;
-    };
+    // const verifyToken = jwt.verify(token, process.env.JWT_SEC!) as {
+    //   userId: number;
+    //   username: string;
+    // };
 
-    console.log(verifyToken);
+    // console.log(verifyToken);
 
-    if (!verifyToken) {
-      return res.json({
-        message: "unauthorized",
-      });
-    }
+    // if (!verifyToken) {
+    //   return res.json({
+    //     message: "unauthorized",
+    //   });
+    // }
 
-    req.userId = verifyToken.userId;
+    // req.userId = verifyToken.userId;
+    req.userId = 1;
 
     next();
   } catch (error) {

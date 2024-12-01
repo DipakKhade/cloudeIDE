@@ -1,46 +1,57 @@
-import { Terminal } from 'xterm';
-import { WebLinksAddon } from 'xterm-addon-web-links';
-import { useEffect, useRef } from 'react';
+import React, { useState } from 'react';
+import { Xterm } from 'xterm-react';
 
-export default function PseudoTerminal() {
-    const terminalRef = useRef<HTMLDivElement>(null);
+function PseudoTerminal() {
+	const [Terminal, setTerminal] = useState(null);
+	const [input, setInput] = useState('');
 
-    useEffect(() => {
-        if (terminalRef.current) {
-            const terminal = new Terminal({
-                cursorBlink: true,
-                rows: 20,
-            });
+	const onTermInit = (term: any) => {
+		setTerminal(term);
+		term.reset();
+		term.write('$ ');
+	};
 
-            terminal.loadAddon(new WebLinksAddon());
-            terminal.open(terminalRef.current);
-            terminal.focus();
+	const onTermDispose = (term: any) => {
+		setTerminal(null);
+	};
 
-            terminal.writeln('Welcome to the PseudoTerminal!');
+	const handleData = (data: any) => {
+		if (Terminal) {
+			const code = data.charCodeAt(0);
+			if (code === 13 && input.length > 0) {
+				Terminal?.write("\r\n " + input + "'\r\n");
+				setInput('@Dipaks-MacBook-Pro dir %');
+			} else if (code < 32 || code === 127) {
+				console.log('Control Key', code);
+				return;
+			} else {
+				Terminal.write(data);
+				setInput(input + data);
+			}
+		}
+	};
 
-            terminal.onKey(({ key, domEvent }) => {
-                const printable = !domEvent.altKey && !domEvent.ctrlKey && !domEvent.metaKey;
-                if (domEvent.key === 'Enter') {
-                    terminal.write('\r\n');
-                } else if (domEvent.key === 'Backspace') {
-                    if (terminal._core.buffer.x > 2) {
-                        terminal.write('\b \b');
-                    }
-                } else if (printable) {
-                    terminal.write(key); 
-                }
-            });
-        }
-    }, []);
 
-    return (
-        <div
-            ref={terminalRef}
-            style={{
-                height: '400px',
-                width: '600px',
-                backgroundColor: '#1e1e1e',
-            }}
-        ></div>
-    );
+	const onKeyChange = ({ domEvent }: {
+		domEvent: any
+	}) => {
+		console.log(domEvent)
+		console.log('hello')
+	}
+
+	return (
+		<div className="App">
+			<header className=''>
+				<Xterm
+					onInit={onTermInit}
+					onDispose={onTermDispose}
+					onData={handleData}
+					onKey={onKeyChange}
+				/>
+			</header>
+		</div>
+	);
 }
+
+
+export default PseudoTerminal;

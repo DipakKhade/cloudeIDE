@@ -8,7 +8,7 @@ import { firebaseAuthMiddleware } from "../../../middleware/firebaseAuth";
 export const projectRouter = Router();
 
 
-projectRouter.get("/createnewproject", firebaseAuthMiddleware, async (req, res) => {
+projectRouter.get("/createnewproject", authMiddleware , async (req, res) => {
   const data = req.query;
   const parsedData = getTemplateCode.safeParse(data);
   if (parsedData.error) {

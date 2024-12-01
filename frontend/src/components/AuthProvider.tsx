@@ -6,15 +6,15 @@ import { useRecoilValue } from "recoil";
 export const AuthProvider = ({ children }: {
   children: ReactNode
 }) => {
-  const navigator = useNavigate();
-  const user = useRecoilValue(userAtom);
-  console.log('user--', user)
-  useEffect(() => {
-    if (!user || !user.isLoggedin) {
-      navigator('/signin')
-    }
+  // const navigator = useNavigate();
+  // const user = useRecoilValue(userAtom);
+  // console.log('user--', user)
+  // useEffect(() => {
+  //   if (!user || !user.isLoggedin) {
+  //     navigator('/signin')
+  //   }
 
-  })
+  // })
   return <>
     {children}
   </>

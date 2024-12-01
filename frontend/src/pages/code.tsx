@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { Folder, File, ChevronRight, ChevronDown } from "lucide-react";
+import { Folder, File, ChevronRight, ChevronDown} from "lucide-react";
 import CodeEditor from "@/components/Editor";
 import axios from "axios";
 import { BACKEND_URL } from "@/lib/config";
 import { useLocation } from "react-router-dom";
-
+import PseudoTerminal from '../components/Terminal'
 
 const Code = () => {
   const [files, setFiles] = useState([]);
@@ -97,8 +97,13 @@ const Code = () => {
         </div>
       </div>
 
-      {/* Code Editor Area */}
-      <CodeEditor />
+<div className="w-[45vw]">
+      {/* <CodeEditor /> */}
+</div>
+
+    <div className="w-[25vw]">
+      <PseudoTerminal/>
+    </div>
     </div>
   );
 };

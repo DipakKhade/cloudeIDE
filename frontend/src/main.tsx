@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { createBrowserRouter, RouterProvider, useNavigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignIn from "./pages/Signin.tsx";
 import App from "./App.tsx";
 import Code from "./pages/code.tsx";
@@ -19,7 +19,11 @@ const routes = createBrowserRouter([
   },
   {
     path: "/",
-    element: (<AuthProvider><App /></AuthProvider>)
+    element: (
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    )
   },
 
   {
@@ -30,8 +34,9 @@ const routes = createBrowserRouter([
   {
     path: '/:projectId',
     element: (
-      <AuthProvider>    <Code /> </AuthProvider>
-
+      <AuthProvider>
+        <Code />
+      </AuthProvider>
     )
   }
 ]);

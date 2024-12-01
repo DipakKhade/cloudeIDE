@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select"
 import { Button } from "./ui/button";
 import axios from 'axios';
-import { BACKEND_URL, templates } from "@/lib/config";
+import { BACKEND_URL} from "@/lib/config";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -44,11 +44,9 @@ export default function Appbar() {
                 template
             },
             headers: {
-                token: getState().firebase.auth.stsTokenManager.accessToken
+                token: 'asd'
             }
         })
-
-
 
         if (res) {
             const id = res.data?.id;
