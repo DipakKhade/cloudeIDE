@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Folder, File, ChevronRight, ChevronDown} from "lucide-react";
+import { Folder, File, ChevronRight, ChevronDown } from "lucide-react";
 import CodeEditor from "@/components/Editor";
 import axios from "axios";
 import { BACKEND_URL } from "@/lib/config";
@@ -11,7 +11,7 @@ const Code = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const location = useLocation();
-  console.log('location.state--',location.state);
+  console.log('location.state--', location.state);
 
   useEffect(() => {
     (async () => {
@@ -58,9 +58,8 @@ const Code = () => {
     return items?.map((item) => (
       <div key={item.id} className="ml-4">
         <div
-          className={`flex items-center p-1 hover:bg-gray-100 rounded cursor-pointer ${
-            selectedFile === item.id ? "bg-blue-100" : ""
-          }`}
+          className={`flex items-center p-1 hover:bg-gray-100 rounded cursor-pointer ${selectedFile === item.id ? "bg-blue-100" : ""
+            }`}
           onClick={() =>
             item.type === "folder"
               ? toggleFolder(item.id)
@@ -88,7 +87,7 @@ const Code = () => {
   };
 
   return (
-    <div className="h-screen flex">
+    <>   <div className="h-screen flex">
       {/* File Explorer */}
       <div className="w-64 border-r border-gray-200 bg-white overflow-y-auto">
         <div className="p-4">
@@ -97,14 +96,13 @@ const Code = () => {
         </div>
       </div>
 
-<div className="w-[45vw]">
-      {/* <CodeEditor /> */}
-</div>
 
-    <div className="w-[25vw]">
-      <PseudoTerminal/>
+      {/*   <div className="w-[25vw]"> */}
+      {/*     <PseudoTerminal /> */}
+      {/*   </div> */}
     </div>
-    </div>
+      <CodeEditor />
+    </>
   );
 };
 

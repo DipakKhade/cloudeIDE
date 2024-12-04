@@ -8,6 +8,7 @@ import { useRecoilState } from "recoil";
 import axios from 'axios';
 import { BACKEND_URL } from "@/lib/config";
 import { useNavigate } from "react-router-dom";
+import { Input } from "@/components/ui/input";
 
 const firebaseApp = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
@@ -57,6 +58,16 @@ export default function SignIn() {
         <Card className="w-[650px]">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold text-center">Sign in to CloudeIDE</CardTitle>
+            <div className="w-full justify-center flex">
+              <div className="w-56 justify-middle agine-centre space-y-1">
+                <Input placeholder="username" />
+                <Input placeholder="password" />
+                <div className="flex w-full">
+                  <Button className="ml-12">Signin</Button>
+                </div>
+              </div>
+            </div>
+
             <CardDescription className="text-center">
               Sign in to your account using Google
             </CardDescription>
