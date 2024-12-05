@@ -36,7 +36,7 @@ userRouter.post("/signup", async (req, res) => {
 });
 
 userRouter.post("/signin", async (req, res) => {
-  const data = req.body;
+  const data = req.body.data;
 
   const parsedData = loginSchema.safeParse(data);
 
@@ -60,7 +60,7 @@ userRouter.post("/signin", async (req, res) => {
     return;
   }
 
-  if(user.password){
+  if (user.password) {
     const matchPassword = bcypt.compare(parsedData.data.password, user?.password);
     if (!matchPassword) {
       res.json({
@@ -70,7 +70,7 @@ userRouter.post("/signin", async (req, res) => {
     }
   }
 
- 
+
   const token = jwt.sign(
     {
       userId: user.id,
@@ -86,29 +86,29 @@ userRouter.post("/signin", async (req, res) => {
   return;
 });
 
-userRouter.post('/addgooglesigninuser', async(req,res)=>{
-    const data = req.body.data;
-    console.log(data)
-    const parsedData = firebaseAuthUserSchema.safeParse(data);
-    if(parsedData.error){
-      res.json({
-        message:"invalid user cred",
-        data:parsedData.error?.message
-      });
-      return;
-    };
-
-    if(parsedData.data?.name && parsedData.data?.email){
-      const new_user = await db.user.create({
-        data:{
-          username:parsedData.data?.name,
-          email:parsedData.data?.email,
-        }
-      })
-    }
-
+userRouter.post('/addgooglesigninuser', async (req, res) => {
+  const data = req.body.data;
+  console.log(data)
+  const parsedData = firebaseAuthUserSchema.safeParse(data);
+  if (parsedData.error) {
     res.json({
-      message:"user created succefully",
+      message: "invalid user cred",
+      data: parsedData.error?.message
     });
     return;
+  };
+
+  if (parsedData.data?.name && parsedData.data?.email) {
+    const new_user = await db.user.create({
+      data: {
+        username: parsedData.data?.name,
+        email: parsedData.data?.email,
+      }
+    })
+  }
+
+  res.json({
+    message: "user created succefully",
+  });
+  return;
 })

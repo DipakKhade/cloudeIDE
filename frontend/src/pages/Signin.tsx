@@ -9,6 +9,7 @@ import axios from 'axios';
 import { BACKEND_URL } from "@/lib/config";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const firebaseApp = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
@@ -33,11 +34,16 @@ const signInWithGooglePopup = () => signInWithPopup(auth, provider).then(async (
 
 export default function SignIn() {
   const [user, SetUser] = useRecoilState(userAtom);
+  const [email, SetEmail] = useState<string>('');
+  const [password, SetPassword] = useState<string>('');
+
   const navigate = useNavigate();
   const logGoogleUser = async () => {
     const token = await auth.currentUser?.getIdToken();
     console.log('token is this', token);
-    localStorage.setItem('token', token)
+    if (token) {
+      localStorage.setItem('token', token)
+    }
     const response = await signInWithGooglePopup();
     console.log(response);
     if (response?.user && response.user.email) {
@@ -52,6 +58,16 @@ export default function SignIn() {
     console.log('user.user', user?.user)
   }
 
+  const sign_in = async () => {
+    const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, {
+      data: {
+        email,
+        password
+      }
+    })
+    const token = response.data?.token;
+    localStorage.setItem(`token`, `Bearer ${token}`)
+  }
   if (!user.isLoggedin) {
     return (
       <div className="w-full min-h-min justify-center align-middle flex pb-64 pt-24">
@@ -60,16 +76,14 @@ export default function SignIn() {
             <CardTitle className="text-2xl font-bold text-center">Sign in to CloudeIDE</CardTitle>
             <div className="w-full justify-center flex">
               <div className="w-56 justify-middle agine-centre space-y-1">
-                <Input placeholder="username" />
-                <Input placeholder="password" />
+                <Input onChange={(e) => SetEmail(e.target.value)} placeholder="email" type="email" />
+                <Input onChange={(e) => SetPassword(e.target.value)} placeholder="password" type="password" />
                 <div className="flex w-full">
-                  <Button className="ml-12">Signin</Button>
+                  <Button onClick={sign_in} className="ml-20">Signin</Button>
                 </div>
               </div>
             </div>
-
-            <CardDescription className="text-center">
-              Sign in to your account using Google
+            <CardDescription className="text-center"> Sign in to your account using Google
             </CardDescription>
           </CardHeader>
           <CardContent className="flex justify-center">

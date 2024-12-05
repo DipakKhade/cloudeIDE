@@ -10,13 +10,19 @@ import {
   RecoilRoot
 } from 'recoil';
 import { AuthProvider } from "./components/AuthProvider.tsx";
+import Signup from "./pages/Signup.tsx";
 
 
 const routes = createBrowserRouter([
   {
+    path: '/signup',
+    element: <Signup />
+  },
+  {
     path: "/signin",
     element: <SignIn />,
   },
+
   {
     path: "/",
     element: (
@@ -32,7 +38,7 @@ const routes = createBrowserRouter([
   },
 
   {
-    path: '/:projectId',
+    path: '/project/:projectId',
     element: (
       <AuthProvider>
         <Code />
