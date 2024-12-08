@@ -102,7 +102,12 @@ const Code = () => {
       {/*   </div> */}
     </div>
       <CodeEditor />
+      <div className="mt-12">
+        <PseudoTerminal />
+      </div>
     </>
+
+
   );
 };
 

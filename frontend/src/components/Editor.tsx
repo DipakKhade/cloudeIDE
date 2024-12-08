@@ -75,27 +75,27 @@ const editorOptions: monaco.editor.IStandaloneEditorConstructionOptions = {
 
 import React, { useState, useEffect } from 'react';
 import MonacoEditor from 'react-monaco-editor';
-
+import { Button } from './ui/button';
 
 const CodeEditor = () => {
   const [code, setCode] = useState('');
   const [file, setFile] = useState();
   const [language, setLanguage] = useState('javascript');
-  const [theme, setTheme] = useState('vs-light');
+  const [theme, setTheme] = useState('vs-dark');
   const handleFileChange = (event: any) => {
     if (event.target.files) {
       setFile(event.target.files[0]);
     }
   };
-  const setDarkTheme = (e: any) => {
-    e.preventDefault();
-    setTheme((prev) => (prev === 'vs-dark' ? 'hc-black' : 'vs-dark'));
-  };
 
-  const setLightTheme = (e: any) => {
-    e.preventDefault();
-    setTheme('vs-light');
-  };
+  const changeTheme = () => {
+    if (theme == 'vs-lignt') {
+      setTheme('vs-dark')
+    } else if (theme == 'vs-dark') {
+      setTheme('vs-lignt')
+    }
+  }
+
   useEffect(() => {
     if (file) {
       var reader = new FileReader();
@@ -118,21 +118,18 @@ const CodeEditor = () => {
 
   return (
     <div>
-      <div>
-        <button onClick={setDarkTheme} type="button">
-          Set dark theme ({theme === 'vs-dark' ? 'hc-black' : 'vs-dark'})
-        </button>
-        {theme !== 'vs-light' && (
-          <button onClick={setLightTheme} type="button">
-            Set light theme
-          </button>
+      <div className='space-y-3 space-x-3'>
+        {(
+          <Button onClick={changeTheme} type="button">
+            change theme
+          </Button>
         )}
         <input type="file" onChange={handleFileChange} />
       </div>
       <hr />
       <MonacoEditor
-        height="500"
-        width='500'
+        height="800"
+        width='800'
         language={language}
         value={code}
         options={editorOptions}

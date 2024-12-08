@@ -17,12 +17,9 @@ import {
 } from "@/components/ui/select"
 import { Button } from "./ui/button";
 import axios from 'axios';
-import { BACKEND_URL} from "@/lib/config";
+import { BACKEND_URL } from "@/lib/config";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-
-
 
 export default function Appbar() {
     const [name, setName] = useState<string>('');
@@ -38,28 +35,33 @@ export default function Appbar() {
         if (!name || !template) {
             return
         }
-        const res = await axios.get(`${BACKEND_URL}/api/v1/project/createnewproject`, {
-            params: {
-                name,
-                template
-            },
-            headers: {
-                token: 'asd'
-            }
-        })
+        try {
 
-        if (res) {
-            const id = res.data?.id;
-            const files = res.data?.files;
-            setLoading(false)
-            console.log(id, files)
-            navigate(`/${id}`, {
-                state: {
-                    files
+            const res = await axios.get(`${BACKEND_URL}/api/v1/project/createnewproject`, {
+                params: {
+                    name,
+                    template
+                },
+                headers: {
+                    token: 'asd'
                 }
             })
+
+            if (res) {
+                const id = res.data?.id;
+                const files = res.data?.files;
+                setLoading(false)
+                console.log(id, files)
+                navigate(`/${id}`, {
+                    state: {
+                        files
+                    }
+                })
+            }
+            setLoading(false)
+        } catch (error) {
+            console.log(error)
         }
-        setLoading(false)
 
     }
 
