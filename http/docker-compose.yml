@@ -4,5 +4,5 @@ services:
     image: postgres
     container_name: cloudeidedb
     environment:
-      POSTGRES_PASSWORD = "asd"
+    - POSTGRES_PASSWORD = "asd"
 
