@@ -1,19 +1,8 @@
 
-version: '1'
-
 services:
-  postgres:
+  db:
     image: postgres
-    container_name: postgres_container
-    ports:
-      - "5432:5432"
+    container_name: cloudeidedb
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: postgres# Replace with your desired database name
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      POSTGRES_PASSWORD = "asd"
 
-volumes:
-  postgres_data:
-    driver: local
