@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project_id
+  labels:
+    app: project_id
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: project_id
+  template:
+    metadata:
+      labels:
+        app: project_id
+    spec:
+      containers:
+      - name: project_id
+        image: my-ws-server-image
+        ports:
+        - containerPort: 80
