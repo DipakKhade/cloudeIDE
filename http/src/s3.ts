@@ -7,11 +7,11 @@ const s3 = new S3({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
-export async function getBoilerPlateCode(template: string,userId:number) {
+export async function getBoilerPlateCode(template: string,projectId:string) {
   const allFiles = await s3
     .listObjectsV2({
       Bucket: BUCKET_NAME,
-      Prefix: 'userData/'+userId.toString(),
+      Prefix: 'userData/'+projectId,
     })
     .promise();
 
@@ -89,3 +89,4 @@ export const createUserProject = async (userId:any, template:any) => {
     throw error;
   }
 };
+

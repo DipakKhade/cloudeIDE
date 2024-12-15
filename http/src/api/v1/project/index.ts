@@ -3,7 +3,6 @@ import { createProjectSchema, getTemplateCode } from "../../../zod";
 import { db } from "../../../db/prisma";
 import { authMiddleware } from "../../../middleware/auth";
 import { createUserProject, getBoilerPlateCode } from "../../../s3";
-import { firebaseAuthMiddleware } from "../../../middleware/firebaseAuth";
 
 export const projectRouter = Router();
 
@@ -17,19 +16,21 @@ projectRouter.get("/createnewproject", authMiddleware , async (req, res) => {
     });
     return;
   }
-  await createUserProject(req.userId, "nodejs")
-  const files = await getBoilerPlateCode("nodejs", req.userId);
   const new_project = await db.project.create({
     data: {
       userId: req.userId,
       language: parsedData.data.template,
       name: parsedData.data.name
     }
-  })
+  });
+  console.log(new_project);
+  await createUserProject(new_project.id, "nodejs")
+  const files = await getBoilerPlateCode("nodejs", new_project.id);
   res.json({
     files,
     id: new_project.id
   });
+  return
 });
 
 projectRouter.get("/projectlist", authMiddleware, async (req, res) => {
