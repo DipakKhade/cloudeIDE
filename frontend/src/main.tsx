@@ -11,6 +11,7 @@ import {
 } from 'recoil';
 import { AuthProvider } from "./components/AuthProvider.tsx";
 import Signup from "./pages/Signup.tsx";
+import { AllProjects } from "./components/AllProjects.tsx";
 
 
 const routes = createBrowserRouter([
@@ -31,6 +32,10 @@ const routes = createBrowserRouter([
       </AuthProvider>
     )
   },
+  {
+    path:"/allprojects",
+    element:<AllProjects/>
+  },
 
   {
     path: 'newproject',
@@ -38,7 +43,7 @@ const routes = createBrowserRouter([
   },
 
   {
-    path: '/project/:projectId',
+    path: '/project',
     element: (
       <AuthProvider>
         <Code />

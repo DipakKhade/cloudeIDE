@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { Xterm } from 'xterm-react';
+import { Socket } from 'socket.io-client'
 
-function PseudoTerminal() {
+
+
+const PseudoTerminal = ({ socket }: {
+	socket: Socket
+}) => {
 	const [Terminal, setTerminal] = useState(null);
 	const [input, setInput] = useState('');
+
+	// socket.emit("initTerminal")
 
 	const onTermInit = (term: any) => {
 		setTerminal(term);

@@ -1,90 +1,38 @@
 import { useState, useEffect } from "react";
-import { Folder, File, ChevronRight, ChevronDown } from "lucide-react";
 import CodeEditor from "@/components/Editor";
-import axios from "axios";
-import { BACKEND_URL } from "@/lib/config";
 import { useLocation } from "react-router-dom";
-import PseudoTerminal from '../components/Terminal'
+import PseudoTerminal from "@/components/Terminal";
+import axios from "axios";
+import { K8S_HTTP_URL } from "@/lib/config";
+import queryString from "query-string";
+
+
+
 
 const Code = () => {
   const [files, setFiles] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [projectId , SetProjectId ] = useState<string>('')
+  const [pod , SetPod] = useState<boolean>(false);
 
   const location = useLocation();
-  console.log('location.state--', location.state);
-
+  
   useEffect(() => {
+    const queries = queryString.parse(window.location.search);
+    console.log(queries);
+    SetProjectId(queries?.projectid as string);
     (async () => {
+      if(projectId){
+        await createPod(projectId)
+        SetPod(true)
+      }
       setFiles(location.state?.files);
     })();
-  }, []);
+  }, [projectId]);
 
-  const toggleFolder = (id: any) => {
-    setFiles((prevFiles) => {
-      const updateFiles = (items: any) => {
-        return items.map((item: any) => {
-          if (item.id === id) {
-            return { ...item, isOpen: !item.isOpen };
-          }
-          if (item.children) {
-            return { ...item, children: updateFiles(item.children) };
-          }
-          return item;
-        });
-      };
-      return updateFiles(prevFiles);
-    });
-  };
-
-  // async function getFiles() {
-  //   const res = await axios.get(
-  //     `${BACKEND_URL}/api/v1/project/getstartercode`,
-  //     {
-  //       data: {
-  //         template: "nodejs",
-  //       },
-  //       headers:{
-  //         token : localStorage.getItem('token')
-  //       }
-  //     }
-  //   );
-  //   console.log(res);
-  //   const files = res.data.files;
-  //   return files;
-  // }
-
-  const renderFileTree = (items: any[]) => {
-    console.log("item is this", items);
-    return items?.map((item) => (
-      <div key={item.id} className="ml-4">
-        <div
-          className={`flex items-center p-1 hover:bg-gray-100 rounded cursor-pointer ${selectedFile === item.id ? "bg-blue-100" : ""
-            }`}
-          onClick={() =>
-            item.type === "folder"
-              ? toggleFolder(item.id)
-              : setSelectedFile(item.id)
-          }
-        >
-          {item.type === "folder" &&
-            (item.isOpen ? (
-              <ChevronDown size={16} />
-            ) : (
-              <ChevronRight size={16} />
-            ))}
-          {item.type === "folder" ? (
-            <Folder size={16} className="mr-2 text-blue-500" />
-          ) : (
-            <File size={16} className="mr-2 text-gray-500" />
-          )}
-          <span className="text-sm">{item.name}</span>
-        </div>
-        {item.type === "folder" && item.isOpen && item.children && (
-          <div className="ml-2">{renderFileTree(item.children)}</div>
-        )}
-      </div>
-    ));
-  };
+  if(!pod){
+    return <> Setting up your Project ....</>
+  }
 
   return (
     <>   <div className="h-screen flex">
@@ -92,18 +40,14 @@ const Code = () => {
       <div className="w-64 border-r border-gray-200 bg-white overflow-y-auto">
         <div className="p-4">
           <h2 className="text-sm font-semibold mb-4">Files</h2>
-          {renderFileTree(files ? files : [])}
+          {/* {renderFileTree(files ? files : [])} */}
+          {/* <FileTree /> */}
         </div>
       </div>
-
-
-      {/*   <div className="w-[25vw]"> */}
-      {/*     <PseudoTerminal /> */}
-      {/*   </div> */}
     </div>
       <CodeEditor />
       <div className="mt-12">
-        <PseudoTerminal />
+        {/* <PseudoTerminal /> */}
       </div>
     </>
 
@@ -112,3 +56,11 @@ const Code = () => {
 };
 
 export default Code;
+
+
+const createPod = async(projectId:string) =>{
+  const res  =await axios.post(`${K8S_HTTP_URL}/k8spod`,{
+    projectId
+  });
+  console.log(res.data)
+}
