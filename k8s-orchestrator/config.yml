@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: project_id
-        image: my-ws-server-image
+        image: niginx
         ports:
         - containerPort: 80
