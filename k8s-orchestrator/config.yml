@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: project_id
+  name: project-id
   labels:
-    app: project_id
+    app: project-id
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: project_id
+      app: project-id
   template:
     metadata:
       labels:
-        app: project_id
+        app: project-id
     spec:
       containers:
-      - name: project_id
+      - name: project-id
         image: niginx
         ports:
         - containerPort: 80

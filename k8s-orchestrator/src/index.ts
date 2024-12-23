@@ -26,13 +26,50 @@ app.post('/k8spod', async (req, res) => {
     // create a pod for user with project id as a pod label
     const config = parseYaml(); 
     const nameSpace = 'default';
-    console.log('config is this ----', config);
+
+    const config2 = {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "name": "project-id",
+          "labels": {
+            "app": "project-id"
+          }
+        },
+        "spec": {
+          "replicas": 3,
+          "selector": {
+            "matchLabels": {
+              "app": "project-id"
+            }
+          },
+          "template": {
+            "metadata": {
+              "labels": {
+                "app": "project-id"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "name": "project-id",
+                  "image": "niginx",
+                  "ports": [
+                    {
+                      "containerPort": 80
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
 
     try {
         switch (config.kind) {
             case 'Deployment':
-                console.log('Creating Namespaced Deployment with config:', config);
-                const response = await k8sApi.createNamespacedDeployment(nameSpace, config);
+                const response = await k8sApi.createNamespacedDeployment(nameSpace, config2);
                 console.log('Response from k8sApi:', response);
                 break;
             default:
@@ -44,7 +81,6 @@ app.post('/k8spod', async (req, res) => {
         });
 
     } catch (error: any) {
-        console.log('HTTP request failed:', error.message);
         console.log('Error details:', error);
         res.json({
             message: "Failed to create pod",
