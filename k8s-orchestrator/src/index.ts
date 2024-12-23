@@ -24,53 +24,14 @@ app.post('/k8spod', async (req, res) => {
     };
 
     // create a pod for user with project id as a pod label
-    const config = parseYaml(); 
+    const config = parseYaml(projectId); 
+    console.log(config)
     const nameSpace = 'default';
-
-    const config2 = {
-        "apiVersion": "apps/v1",
-        "kind": "Deployment",
-        "metadata": {
-          "name": "project-id",
-          "labels": {
-            "app": "project-id"
-          }
-        },
-        "spec": {
-          "replicas": 3,
-          "selector": {
-            "matchLabels": {
-              "app": "project-id"
-            }
-          },
-          "template": {
-            "metadata": {
-              "labels": {
-                "app": "project-id"
-              }
-            },
-            "spec": {
-              "containers": [
-                {
-                  "name": "project-id",
-                  "image": "niginx",
-                  "ports": [
-                    {
-                      "containerPort": 80
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      }
 
     try {
         switch (config.kind) {
             case 'Deployment':
-                const response = await k8sApi.createNamespacedDeployment(nameSpace, config2);
-                console.log('Response from k8sApi:', response);
+                await k8sApi.createNamespacedDeployment(nameSpace, config);
                 break;
             default:
                 console.log('Config kind does not match any known types');
