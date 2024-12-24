@@ -10,17 +10,22 @@ import {
 import { BACKEND_URL } from "@/lib/config"
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { AppSidebar } from "./app-sidebar"
 
 export const ProjectList =() =>{
 
     return <>
-   <div>
+   {/* <div>
     <div className="p-2 space-x-2 space-y-2 flex mt-24">
       <div className="mb-12">
         <TableComponent/>
       </div>
     </div>
-  </div>
+  </div> */}
+   <main className="flex">
+          <AppSidebar/>
+          <TableComponent/>
+      </main>
 
     </>
 }
@@ -42,7 +47,7 @@ const TableComponent = () =>{
   <TableCaption>A list of your Projects.</TableCaption>
   <TableHeader>
     <TableRow>
-      <TableHead className="w-[500px]">Id</TableHead>
+      <TableHead className="w-[400px]">Id</TableHead>
       <TableHead>Project Name</TableHead>
       <TableHead>Project type</TableHead>
     </TableRow>
