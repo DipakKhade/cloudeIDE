@@ -11,6 +11,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { on } from "events"
+import { CreateNewProject } from "./CreateProject"
+import { ProjectList } from "./projectList"
 
 // Menu items.
 const items = [
@@ -20,8 +22,8 @@ const items = [
     icon: Home,
   },
   {
-    title: "Projects",
-    url: "#",
+    title: "All Projects",
+    url: "allprojects",
     icon: Inbox,
   },
   {
@@ -49,7 +51,11 @@ export function AppSidebar() {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+             
+              <SidebarMenuItem>
+                <SidebarItem>
+                  <CreateNewProject />
+           {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
@@ -59,10 +65,23 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+                </SidebarItem>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
   )
+}
+
+
+const SidebarItem = ({ children }: {
+  children: React.ReactNode
+}) => {
+  return <div>
+    <div className="p-2 space-x-2 space-y-2 flex">
+      <div className="mb-12">{children}</div>
+    </div>
+  </div>
 }

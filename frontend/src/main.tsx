@@ -49,6 +49,11 @@ const routes = createBrowserRouter([
         <Code />
       </AuthProvider>
     )
+  },
+
+  {
+    path:"allprojects",
+    element:<AllProjects/>
   }
 ]);
 
