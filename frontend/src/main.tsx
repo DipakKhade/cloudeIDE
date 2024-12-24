@@ -12,6 +12,7 @@ import {
 import { AuthProvider } from "./components/AuthProvider.tsx";
 import Signup from "./pages/Signup.tsx";
 import { AllProjects } from "./components/AllProjects.tsx";
+import { Provider } from "./Provider.tsx";
 
 
 const routes = createBrowserRouter([
@@ -60,10 +61,12 @@ const routes = createBrowserRouter([
 
 createRoot(document.getElementById("root")!).render(
   <>
+  <Provider>
     <RecoilRoot>
       <SidebarProvider>
         <RouterProvider router={routes} />
       </SidebarProvider>
     </RecoilRoot>
+    </Provider>
   </>
 );

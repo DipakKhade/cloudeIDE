@@ -10,9 +10,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { on } from "events"
 import { CreateNewProject } from "./CreateProject"
-import { ProjectList } from "./projectList"
 
 // Menu items.
 const items = [

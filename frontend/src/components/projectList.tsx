@@ -39,7 +39,7 @@ const TableComponent = () =>{
     },[])
     return <>
      <Table>
-  <TableCaption>A list of your recent invoices.</TableCaption>
+  <TableCaption>A list of your Projects.</TableCaption>
   <TableHeader>
     <TableRow>
       <TableHead className="w-[500px]">Id</TableHead>
