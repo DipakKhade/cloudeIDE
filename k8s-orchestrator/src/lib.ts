@@ -8,10 +8,8 @@ export const parseYaml = (projectId: string): any => {
   }))
 
   const docs = obj.map((doc: any) => doc.toJS())
-  console.log('docs-------', docs)
   const return_doc = []
   for (let doc of docs) {
-    console.log(doc)
     const str = JSON.stringify(doc, null, 2);
     const returnObj = JSON.parse(str.replace(/"project-id"/g, `"${projectId}"`));
     return_doc.push(returnObj)

@@ -10,12 +10,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@kubernetes/client-node": "^0.22.3",
+    "@kubernetes/client-node": "^0.20.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "yaml": "^2.6.1"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9"

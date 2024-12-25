@@ -1,16 +1,17 @@
 import express from 'express';
 import cors from 'cors';
 import { parseYaml } from './lib';
-import * as k8s from '@kubernetes/client-node';
+import { KubeConfig, AppsV1Api, CoreV1Api, NetworkingV1Api } from "@kubernetes/client-node";
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
-const kc = new k8s.KubeConfig();
-kc.loadFromDefault();
-const k8sApi = kc.makeApiClient(k8s.AppsV1Api);
+const kubeconfig = new KubeConfig();
+kubeconfig.loadFromDefault();
+const coreV1Api = kubeconfig.makeApiClient(CoreV1Api);
+const appsV1Api = kubeconfig.makeApiClient(AppsV1Api);
+const networkingV1Api = kubeconfig.makeApiClient(NetworkingV1Api);
 
 app.post('/k8spod', async (req, res) => {
     //user should authenticate her
@@ -23,20 +24,27 @@ app.post('/k8spod', async (req, res) => {
         return;
     };
 
-    // create a pod for user with project id as a pod label
-    const config = parseYaml(projectId); 
-    console.log(config)
+    const config = parseYaml(projectId);
     const nameSpace = 'default';
 
     try {
-        switch (config.kind) {
-            case 'Deployment':
-                await k8sApi.createNamespacedDeployment(nameSpace, config);
-                break;
-            default:
-                console.log('Config kind does not match any known types');
+        for (let doc of config) {
+            switch (doc.kind) {
+                case 'Deployment':
+                    await appsV1Api.createNamespacedDeployment(nameSpace, doc);
+                    console.log('Deployment created')
+                    break;
+                case 'Service':
+                    await coreV1Api.createNamespacedService(nameSpace, doc)
+                    console.log('service created')
+                    return
+                case 'Ingress':
+                    await networkingV1Api.createNamespacedIngress(nameSpace, doc)
+                    console.log('ingress created')
+                default:
+                    console.log('Config kind does not match any known types', doc.kind);
+            }
         }
-
         res.json({
             message: "pod created"
         });

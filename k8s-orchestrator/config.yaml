@@ -1,0 +1,56 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-id
+  labels:
+    app: project-id
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: project-id
+  template:
+    metadata:
+      labels:
+        app: project-id
+    spec:
+      containers:
+      - name: project-id
+        image: nginx
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: project-id
+spec:
+  selector:
+    app: project-id
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: project-id
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: project-id.localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: project-id
+            port:
+              number: 80
+             number: 80
