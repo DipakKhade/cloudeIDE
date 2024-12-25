@@ -1,13 +1,21 @@
 import { load } from 'js-yaml';
 import fs from 'fs';
+import { parseAllDocuments } from 'yaml'
 
-export const parseYaml = (projectId:string):any => {
-  const obj = load(fs.readFileSync(`${process.cwd()}/config.yml`, {
+export const parseYaml = (projectId: string): any => {
+  const obj = parseAllDocuments(fs.readFileSync(`${process.cwd()}/config.yaml`, {
     encoding: 'utf-8'
   }))
 
-  const str = JSON.stringify(obj, null, 2);
-  const returnObj = JSON.parse(str.replace(/"project-id"/g, `"${projectId}"`));
-  return returnObj;
+  const docs = obj.map((doc: any) => doc.toJS())
+  console.log('docs-------', docs)
+  const return_doc = []
+  for (let doc of docs) {
+    console.log(doc)
+    const str = JSON.stringify(doc, null, 2);
+    const returnObj = JSON.parse(str.replace(/"project-id"/g, `"${projectId}"`));
+    return_doc.push(returnObj)
+  }
+  return return_doc
 }
 
