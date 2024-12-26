@@ -28,4 +28,5 @@ model Project {
   language String
   userId   Int
   user     User   @relation(fields: [userId], references: [id])
+  createdate DateTime @default(now())
 }

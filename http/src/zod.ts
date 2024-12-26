@@ -28,12 +28,12 @@ export const updateProjectSchema = z.object({
 });
 
 export const getTemplateCode = z.object({
-  name:z.string(),
+  name: z.string(),
   template: z.string(),
 });
 
 export const firebaseAuthUserSchema = z.object({
-  name:z.string(),
-  email:z.string().email()
+  name: z.string(),
+  email: z.string().email()
 });
 

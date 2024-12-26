@@ -51,6 +51,19 @@ projectRouter.get("/projectlist", authMiddleware, async (req, res) => {
 });
 
 
-projectRouter.get('/getfilecontent', async (req, res) => {
+projectRouter.get('/getfilecontent', authMiddleware , async (req, res) => {
+  const userId = req.userId;
+
+    const allProjects = await db.project.findMany({
+      where:{
+        userId
+      }
+    })
+
+    res.json({
+      allProjects
+    });
+    
+    return;
 
 })

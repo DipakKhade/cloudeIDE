@@ -15,3 +15,4 @@ app.use("/api/v1", v1Router);
 app.listen(PORT, () => {
   console.log(`http server is up on PORT ${PORT}`);
 });
+
